@@ -3,6 +3,7 @@ const config = new Database('config.db');
 
 function initializeGuildConfigs() {
     config.prepare('CREATE TABLE IF NOT EXISTS guild_configs (guild_id TEXT PRIMARY KEY, config)').run();
+    console.log('[CONFIG] Initialized')
 }
 
 function getGuildConfig(guildId) {

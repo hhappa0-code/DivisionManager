@@ -1,10 +1,22 @@
+// undici library fix
+
+if (!global.File) {
+    const { File } = require('node:buffer');
+
+    global.File = File;
+}
+
+// ------------------
+
 const { Client, Collection, Events, GatewayIntentBits, MessageFlags } = require('discord.js');
-const { token } = require('../config.json');
+const { robloxCookie, token } = require('../config.json');
 const fs = require('node:fs');
 const path = require('node:path');
-const config = require('./util/config.js')
+const config = require('./util/config.js');
+const roblox = require('./util/roblox.js');
 
 config.initializeGuildConfigs();
+roblox.login(robloxCookie);
 
 const client = new Client({ intents: [ GatewayIntentBits.Guilds ] });
 
@@ -25,7 +37,7 @@ for (const file of commandFiles) {
 }
 
 client.once(Events.ClientReady, () => {
-    console.log(`Ready! Logged in as ${client.user.tag}`);
+    console.log(`[DISCORD] Logged in as ${client.user.tag}`);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
